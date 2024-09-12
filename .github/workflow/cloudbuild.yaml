@@ -1,0 +1,36 @@
+name: Deploy to Cloud Run
+
+on:
+  push:
+    branches:
+      - main # 本番環境用のブランチ
+      - dev # 作業ブランチ
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2
+
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          version: "latest"
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+      # バックエンドのビルドとプッシュ
+      - name: Build and Push Backend Image
+        run: |
+          docker build -t us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/REPO_NAME/backend ./backend
+          docker push us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/REPO_NAME/backend
+
+      # Cloud Runへのデプロイ - バックエンド
+      - name: Deploy to Cloud Run - Backend
+        uses: google-github-actions/deploy-cloudrun@v2.7.1
+        with:
+          service: backend-service
+          region: us-central1
+          image: us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/REPO_NAME/backend

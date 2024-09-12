@@ -12,6 +12,11 @@ openai.api_key = OPENAI_API_KEY
 
 app = FastAPI()
 
+# サーバー起動確認
+@app.get("/")
+async def read_root():
+    return {"message": "LINE bot is running!"}
+
 # LINEメッセージのリプライ関数
 def reply_message(reply_token, text):
     url = 'https://api.line.me/v2/bot/message/reply'
