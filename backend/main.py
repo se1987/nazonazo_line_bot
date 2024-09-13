@@ -1,5 +1,8 @@
 from fastapi import FastAPI, Request
-from services.line_bot_service import reply_message
+from linebot import LineBotApi, WebhookHandler
+from linebot.exceptions import InvalidSignatureError
+from linebot.models import MessageEvent, TextMessage
+from services.line_bot_service import send_start_message, handle_difficulty_selection, send_hint, reply_message
 from services.open_ai_service import generate_riddle_and_hint
 import os
 import logging
@@ -10,7 +13,7 @@ load_dotenv()
 
 # ロギングの設定
 log_level = os.getenv("LOG_LEVEL", "INFO").upper()
-logging.basicConfig(level=log_level, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=log_level, format='♦️♦️ %(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 app = FastAPI()
@@ -20,21 +23,29 @@ app = FastAPI()
 async def read_root():
     return {"message": "LINE bot is running!"}
 
-# LINE Webhookエンドポイント
+# Webhookのエンドポイント設定
 @app.post("/webhook")
 async def webhook(request: Request):
-    body = await request.json()
-    events = body.get('events', [])
+    body = await request.json()  # リクエストのボディをJSON形式で取得
+    events = body.get('events', [])  # イベント情報を取得
     
+    # 各イベントを処理
     for event in events:
         if event['type'] == 'message' and event['message']['type'] == 'text':
-            reply_token = event['replyToken']
-            user_message = event['message']['text']
+            reply_token = event['replyToken']  # リプライするためのトークン
+            user_message = event['message']['text']  # ユーザーからのメッセージを取得
 
+            # 「謎謎出して」が送信された場合、難易度選択メッセージを表示
             if user_message == "謎謎出して":
-                riddle_and_hint = generate_riddle_and_hint()  # 謎とヒントを生成
-                reply_message(reply_token, f"問題とヒント: {riddle_and_hint}")
+                send_start_message(reply_token)
+            # 難易度が選択された場合、対応する謎を出題
+            elif user_message in ["簡単", "普通", "難しい"]:
+                handle_difficulty_selection(reply_token, user_message)
+            # ヒントが要求された場合、ヒントを表示
+            elif user_message == "ヒント":
+                send_hint(reply_token, user_message)
             else:
+                # 回答メッセージが送信された場合、回答処理を行う
                 reply_message(reply_token, "回答を入力してください。")
 
     return {"status": "ok"}
