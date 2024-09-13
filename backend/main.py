@@ -1,14 +1,17 @@
-import openai
 from fastapi import FastAPI, Request
-import requests
+from services.line_bot_service import reply_message
+from services.open_ai_service import generate_riddle_and_hint
 import os
+import logging
 from dotenv import load_dotenv
 
 # 環境変数の読み込み
 load_dotenv()
-LINE_CHANNEL_ACCESS_TOKEN = os.getenv("LINE_CHANNEL_ACCESS_TOKEN")
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-openai.api_key = OPENAI_API_KEY
+
+# ロギングの設定
+log_level = os.getenv("LOG_LEVEL", "INFO").upper()
+logging.basicConfig(level=log_level, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
@@ -16,30 +19,6 @@ app = FastAPI()
 @app.get("/")
 async def read_root():
     return {"message": "LINE bot is running!"}
-
-# LINEメッセージのリプライ関数
-def reply_message(reply_token, text):
-    url = 'https://api.line.me/v2/bot/message/reply'
-    headers = {
-        'Content-Type': 'application/json',
-        'Authorization': f'Bearer {LINE_CHANNEL_ACCESS_TOKEN}'
-    }
-    data = {
-        'replyToken': reply_token,
-        'messages': [{'type': 'text', 'text': text}]
-    }
-    requests.post(url, headers=headers, json=data)
-
-# OpenAIを使用して謎とヒントを生成する関数
-def generate_riddle_and_hint():
-    prompt = "面白い謎を出題して、簡単なヒントを提供してください。"
-    response = openai.Completion.create(
-        engine="gpt-4",  # GPT-4モデル
-        prompt=prompt,
-        max_tokens=150
-    )
-    result = response['choices'][0]['text'].strip()
-    return result
 
 # LINE Webhookエンドポイント
 @app.post("/webhook")
