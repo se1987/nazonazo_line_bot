@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request
-from backend.services.line_bot_service import reply_message
-from backend.services.open_ai_service import generate_riddle_and_hint
+from services.line_bot_service import reply_message
+from services.open_ai_service import generate_riddle_and_hint
 import os
 import logging
 from dotenv import load_dotenv
