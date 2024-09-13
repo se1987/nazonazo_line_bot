@@ -1,6 +1,8 @@
 import os
 import logging
 from dotenv import load_dotenv
+import requests
+
 
 # 環境変数の読み込み
 load_dotenv()
