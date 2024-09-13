@@ -1,7 +1,6 @@
 import os
 import logging
 from dotenv import load_dotenv
-import requests
 from services.open_ai_service import generate_riddle, generate_hint
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
