@@ -1,7 +1,6 @@
 import os
 import logging
 from dotenv import load_dotenv
-import requests
 from services.open_ai_service import generate_riddle, generate_hint
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
@@ -15,13 +14,14 @@ log_level = os.getenv("LOG_LEVEL", "INFO").upper()
 logging.basicConfig(level=log_level, format='♦️♦️ %(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# 例外処理の追加
-line_bot_api = None
-handler = None
+# 環境変数からLINE APIのチャンネルトークンを取得
+LINE_CHANNEL_ACCESS_TOKEN = os.getenv("LINE_CHANNEL_ACCESS_TOKEN")
+LINE_CHANNEL_SECRET=os.getenv("LINE_CHANNEL_SECRET")
 
 try:
-    line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))
-    handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
+    # LINE Bot APIクライアントの初期化
+    line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
+    handler = WebhookHandler(LINE_CHANNEL_SECRET)
     logger.info(f"📍line_bot_api: {line_bot_api}")
     logger.info(f"📍handler: {handler}")
 except Exception:
