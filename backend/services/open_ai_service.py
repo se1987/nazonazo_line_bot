@@ -43,10 +43,10 @@ def generate_riddle(difficulty):
             ],
             model="gpt-4o-mini",  # GPT-4のモデルを指定
             temperature=0.7,  # 調整必要
-            max_tokens=100  # 生成されるテキストの最大トークン数
+            max_tokens=150  # 生成されるテキストの最大トークン数
         )
         # 生成されたテキスト（謎）を返す
-        return response.choices[0].text.strip()
+        return response.choices[0].message.content.strip()
     except Exception as e:
         # エラーが発生した場合はログを出力し、エラーメッセージを返す
         logger.error(f"Failed to generate riddle: {e}")
@@ -83,7 +83,7 @@ def generate_hint(difficulty):
             max_tokens=50  # 生成されるテキストの最大トークン数
         )
         # 生成されたテキスト（ヒント）を返す
-        return response.choices[0].text.strip()
+        return response.choices[0].message.content.strip()
     except Exception as e:
         # エラーが発生した場合はログを出力し、エラーメッセージを返す
         logger.error(f"Failed to generate hint: {e}")
