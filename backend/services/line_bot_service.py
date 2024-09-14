@@ -18,9 +18,10 @@ logger = logging.getLogger(__name__)
 LINE_CHANNEL_ACCESS_TOKEN = os.getenv("LINE_CHANNEL_ACCESS_TOKEN")
 LINE_CHANNEL_SECRET=os.getenv("LINE_CHANNEL_SECRET")
 
-# 例外処理の追加
-line_bot_api = None
-handler = None
+if LINE_CHANNEL_ACCESS_TOKEN is None:
+    logger.error("LINE_CHANNEL_ACCESS_TOKENが読み込まれていません")
+if LINE_CHANNEL_SECRET is None:
+    logger.error("LINE_CHANNEL_SECRETが読み込まれていません")
 
 try:
     # LINE Bot APIクライアントの初期化
@@ -32,9 +33,13 @@ except Exception as e:
     logger.error(f"LINE Bot APIの初期化に失敗しました: {e}")
 
 
+
 # スタートメッセージを送信し、難易度選択ボタンを表示する関数
 def send_start_message(reply_token):
-
+    if line_bot_api is None:
+        logger.error("LINE Bot APIが初期化されていません")
+        return
+    
     message = TemplateSendMessage(
         alt_text='難易度を選択してください',  # LINEがボタン表示をサポートしていない環境用の代替テキスト
         template=ButtonsTemplate(
