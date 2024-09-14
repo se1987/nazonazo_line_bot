@@ -1,7 +1,4 @@
 from fastapi import FastAPI, Request
-from linebot import LineBotApi, WebhookHandler
-from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage
 from services.line_bot_service import send_start_message, handle_difficulty_selection, send_hint, reply_message
 import os
 import logging
