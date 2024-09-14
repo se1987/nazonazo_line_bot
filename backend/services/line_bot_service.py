@@ -18,14 +18,9 @@ logger = logging.getLogger(__name__)
 LINE_CHANNEL_ACCESS_TOKEN = os.getenv("LINE_CHANNEL_ACCESS_TOKEN")
 LINE_CHANNEL_SECRET=os.getenv("LINE_CHANNEL_SECRET")
 
-try:
-    # LINE Bot APIクライアントの初期化
-    line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
-    handler = WebhookHandler(LINE_CHANNEL_SECRET)
-    logger.info(f"📍line_bot_api: {line_bot_api}")
-    logger.info(f"📍handler: {handler}")
-except Exception:
-    logger.error(f"環境変数の読み込みに失敗しました: {Exception}")
+# LINE Bot APIクライアントの初期化
+line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
+handler = WebhookHandler(LINE_CHANNEL_SECRET)
 
 # スタートメッセージを送信し、難易度選択ボタンを表示する関数
 def send_start_message(reply_token):
