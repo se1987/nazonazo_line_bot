@@ -125,7 +125,7 @@ def generate_hint(difficulty):
         return "ヒントの生成に失敗しました。"
 
 # ユーザーの回答を判定する関数
-def check_user_answer(user_id, user_answer, reply_token, user_message):
+def check_user_answer(user_id, user_answer):
     try:
         # ユーザーIDに紐づいた問題と答えを取得
         riddle = riddle_store.get(user_id)
