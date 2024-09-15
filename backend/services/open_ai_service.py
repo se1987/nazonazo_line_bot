@@ -18,6 +18,8 @@ riddle_store = {}
 
 # OpenAI APIを使って謎を生成する関数
 def generate_riddle(difficulty, user_id):
+    logger.debug(f"generate_riddle関数が呼び出されました")
+
     # 難易度に応じたプロンプトを作成
     prompt = f"""
     あなたは、難易度に応じたなぞなぞを出題するプロフェッショナルです。
@@ -38,7 +40,10 @@ def generate_riddle(difficulty, user_id):
     - 答え: yyy
     """
     
+    logger.debug(f"prompt:{prompt}")
+
     try:
+        logger.debug(f"generate_riddle関数が{difficulty}の謎の生成を開始しました")
         # GPT-4にリクエストを送信
         response = client.chat.completions.create(
             messages=[
@@ -53,17 +58,22 @@ def generate_riddle(difficulty, user_id):
         )
         # レスポンスを処理
         generated_text = response.choices[0].message['content'].strip()
-        
+        logger.debug(f"generated_text:{generated_text}を生成しました")
+
         # 問題と答えをパース (問題部分と答え部分を分ける)
         question, answer = generated_text.split("答え:")
         question = question.replace("問題:", "").strip()
         answer = answer.strip()
+        logger.debug(f"question:{question}を生成しました")
+        logger.debug(f"answer:{answer}を生成しました")
 
         # 問題と答えをユーザーIDに紐づけて保存
         riddle_store[user_id] = {
             "question": question,
             "answer": answer
         }
+
+        logger.debug(f"riddle_store[user_id]:{riddle_store[user_id]}を生成しました")
 
         # 問題を返す
         return question
