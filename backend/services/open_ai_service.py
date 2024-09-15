@@ -61,22 +61,27 @@ def generate_riddle(difficulty, user_id):
         logger.debug(f"generated_text:{generated_text}を生成しました")
 
         # 問題と答えをパース (問題部分と答え部分を分ける)
-        question, answer = generated_text.split("答え:")
-        question = question.replace("問題:", "").strip()
-        answer = answer.strip()
-        logger.debug(f"question:{question}を生成しました")
-        logger.debug(f"answer:{answer}を生成しました")
+        # 問題と答えが正しいフォーマットで含まれているかを確認
+        if "問題:" in generated_text and "答え:" in generated_text:
+            question, answer = generated_text.split("答え:")
+            question = question.replace("問題:", "").strip()
+            answer = answer.strip()
+            logger.debug(f"question:{question}を生成しました")
+            logger.debug(f"answer:{answer}を生成しました")
 
-        # 問題と答えをユーザーIDに紐づけて保存
-        riddle_store[user_id] = {
-            "question": question,
-            "answer": answer
-        }
+            # 問題と答えをユーザーIDに紐づけて保存
+            riddle_store[user_id] = {
+                "question": question,
+                "answer": answer
+            }
 
-        logger.debug(f"riddle_store[user_id]:{riddle_store[user_id]}を生成しました")
+            logger.debug(f"riddle_store[user_id]:{riddle_store[user_id]}を生成しました")
+            return question
+        else:
+            # フォーマットが不正な場合のエラーハンドリング
+            logger.error(f"Generated text is not in the expected format: {generated_text}")
+            return "謎の生成に失敗しました。フォーマットが正しくありません。"
 
-        # 問題を返す
-        return question
     except Exception as e:
         # エラーが発生した場合はログを出力し、エラーメッセージを返す
         logger.error(f"Failed to generate riddle: {e}")
