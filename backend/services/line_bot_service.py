@@ -1,7 +1,7 @@
 import os
 import logging
 from dotenv import load_dotenv
-from services.open_ai_service import generate_riddle, generate_hint
+from services.open_ai_service import generate_hint
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import TemplateSendMessage, ButtonsTemplate, MessageAction,TextSendMessage
@@ -73,24 +73,6 @@ def send_difficulty_selection_message(reply_token):
     )
     # LINE APIを使って、ユーザーにメッセージを返信
     line_bot_api.reply_message(reply_token, message)
-
-# 難易度が選択された後に、対応する謎を出題し、ヒントボタンを表示する関数
-def handle_difficulty_selection(reply_token, difficulty, user_id):
-    riddle = generate_riddle(difficulty, user_id)  # 難易度に基づいた謎を生成
-    # 謎をユーザーに送信
-    line_bot_api.reply_message(reply_token, TextSendMessage(text=f"{difficulty}の謎: {riddle}"))
-
-    # ヒントボタンをユーザーに表示
-    hint_button = TemplateSendMessage(
-        alt_text='ヒント',  # LINEがボタン表示をサポートしていない環境用の代替テキスト
-        template=ButtonsTemplate(
-            title='ヒントが必要ですか？',  # ボタンのタイトル
-            text='ヒントが必要な場合は以下を押してください',  # ボタンの説明テキスト
-            actions=[MessageAction(label='ヒント', text='ヒント')]  # 「ヒント」ボタンが押されたときのアクション
-        )
-    )
-    # LINE APIを使ってヒントボタンを送信
-    line_bot_api.push_message(user_id, hint_button)
 
 # ヒントボタンが押された際に、対応するヒントを表示する関数
 def send_hint(reply_token, difficulty):
