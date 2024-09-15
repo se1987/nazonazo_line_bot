@@ -70,6 +70,7 @@ def handle_difficulty_selection_with_hint_button(reply_token, difficulty, user_i
     )
     # LINE APIを使ってヒントボタンを送信
     line_bot_api.push_message(user_id, hint_button)
+    
 
 # 難易度選択ボタンを表示する関数
 def send_difficulty_selection_message(reply_token):
@@ -93,8 +94,8 @@ def send_difficulty_selection_message(reply_token):
     line_bot_api.reply_message(reply_token, message)
 
 # ヒントボタンが押された際に、対応するヒントを表示する関数
-def send_hint(reply_token, difficulty):
-    hint = generate_hint(difficulty)  # 難易度に基づいたヒントを生成
+def send_hint(reply_token, difficulty, question):
+    hint = generate_hint(difficulty, question)  # 難易度に基づいたヒントを生成
     # ヒントをユーザーに送信
     line_bot_api.reply_message(reply_token, TextSendMessage(text=f"ヒント: {hint}"))
 
