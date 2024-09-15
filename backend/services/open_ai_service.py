@@ -57,7 +57,7 @@ def generate_riddle(difficulty, user_id):
             max_tokens=150  # 生成されるテキストの最大トークン数
         )
         # レスポンスを処理
-        generated_text = response.choices[0].message['content'].strip()
+        generated_text = response.choices[0].message.content.strip()
         logger.debug(f"generated_text:{generated_text}を生成しました")
 
         # 問題と答えをパース (問題部分と答え部分を分ける)
