@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
-from services.line_bot_service import send_start_message, send_hint, reply_message, send_difficulty_selection_message
+from services.line_bot_service import send_hint, reply_message, send_difficulty_selection_message
 from services.open_ai_service import check_user_answer
-from utils.send_hint import handle_difficulty_selection
+from backend.utils.line_message_api import handle_difficulty_selection_with_hint_button, send_start_message
 import os
 import logging
 from dotenv import load_dotenv
@@ -43,11 +43,11 @@ async def webhook(request: Request):
                 send_difficulty_selection_message(reply_token)
             # 難易度が選択された場合、対応する謎を出題
             elif user_message in ["簡単", "普通", "難しい"]:
-                handle_difficulty_selection(reply_token, user_message, user_id)
+                handle_difficulty_selection_with_hint_button(reply_token, user_message, user_id)
             # ヒントが要求された場合、ヒントを表示
             elif user_message == "ヒント":
                 send_hint(reply_token, user_message)
-                handle_difficulty_selection(reply_token, user_message, user_id)
+                handle_difficulty_selection_with_hint_button(reply_token, user_message, user_id)
             else:
                 # 「もう一度」が送信された場合、最初にスタートボタンを表示
                 if user_message == "もう一度":

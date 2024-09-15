@@ -32,27 +32,6 @@ try:
 except Exception as e:
     logger.error(f"LINE Bot APIの初期化に失敗しました: {e}")
 
-# スタートメッセージを送信し、難易度選択ボタンを表示する関数
-def send_start_message(reply_token):
-    if line_bot_api is None:
-        logger.error("LINE Bot APIが初期化されていません")
-        return
-
-    # スタートボタンを表示するテンプレートメッセージ
-    message = TemplateSendMessage(
-        alt_text='ゲームを開始しますか？',  # LINEがボタン表示をサポートしていない環境用の代替テキスト
-        template=ButtonsTemplate(
-            title='謎解きゲームを開始しますか？',  # メッセージのタイトル
-            text='「スタート」ボタンを押して、ゲームを開始してください',  # 説明テキスト
-            actions=[
-                MessageAction(label='スタート', text='スタート')  # 「スタート」ボタンが押されたときのアクション
-            ]
-        )
-    )
-
-    # LINE APIを使って、ユーザーにメッセージを返信
-    line_bot_api.reply_message(reply_token, message)
-
 # 難易度選択ボタンを表示する関数
 def send_difficulty_selection_message(reply_token):
     if line_bot_api is None:
