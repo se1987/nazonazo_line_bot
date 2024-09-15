@@ -2,7 +2,8 @@ from openai import OpenAI
 import os
 import logging
 from dotenv import load_dotenv
-from services.line_bot_service import handle_difficulty_selection, send_start_message
+from services.line_bot_service import send_start_message
+from utils.send_hint import handle_difficulty_selection
 
 # 環境変数の読み込み
 load_dotenv()
