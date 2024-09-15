@@ -2,7 +2,7 @@ from openai import OpenAI
 import os
 import logging
 from dotenv import load_dotenv
-from backend.utils.line_message_api import handle_difficulty_selection_with_hint_button, send_start_message
+from utils.line_message_api import handle_difficulty_selection_with_hint_button, send_start_message
 
 # 環境変数の読み込み
 load_dotenv()

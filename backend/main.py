@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from services.line_bot_service import send_hint, reply_message, send_difficulty_selection_message
 from services.open_ai_service import check_user_answer
-from backend.utils.line_message_api import handle_difficulty_selection_with_hint_button, send_start_message
+from utils.line_message_api import handle_difficulty_selection_with_hint_button, send_start_message
 import os
 import logging
 from dotenv import load_dotenv
