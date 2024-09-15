@@ -75,7 +75,7 @@ def generate_riddle(difficulty, user_id):
                 "answer": answer
             }
 
-            logger.debug(f"riddle_store[user_id]:{riddle_store[user_id]}を生成しました")
+            logger.debug(f"riddle_storeに保存: {user_id} -> {riddle_store[user_id]}")
             return question
         else:
             # フォーマットが不正な場合のエラーハンドリング
