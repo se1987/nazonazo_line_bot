@@ -137,7 +137,12 @@ def check_user_answer(user_id, user_answer):
         # 正解をチェック
         correct_answer = riddle["answer"]
         logger.debug(f"correct_answer:{correct_answer}を取得しました")
-        if user_answer.strip() == correct_answer:
+
+        # カギカッコを削除して比較 (大文字・小文字も無視)
+        clean_correct_answer = correct_answer.strip().replace("「", "").replace("」", "").lower()
+        logger.debug(f"clean_correct_answer:{clean_correct_answer}を取得しました")
+
+        if user_answer.strip() == clean_correct_answer:
             logger.debug(f"correct_answer:{user_answer.strip()}を取得しました")
             return "おめでとう！正解です！"
         else:
