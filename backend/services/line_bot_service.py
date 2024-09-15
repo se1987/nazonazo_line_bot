@@ -75,8 +75,8 @@ def send_difficulty_selection_message(reply_token):
     line_bot_api.reply_message(reply_token, message)
 
 # 難易度が選択された後に、対応する謎を出題し、ヒントボタンを表示する関数
-def handle_difficulty_selection(reply_token, difficulty):
-    riddle = generate_riddle(difficulty)  # 難易度に基づいた謎を生成
+def handle_difficulty_selection(reply_token, difficulty, user_id):
+    riddle = generate_riddle(difficulty, user_id)  # 難易度に基づいた謎を生成
     # 謎をユーザーに送信
     line_bot_api.reply_message(reply_token, TextSendMessage(text=f"{difficulty}の謎: {riddle}"))
 
