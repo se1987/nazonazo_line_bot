@@ -2,6 +2,7 @@ from openai import OpenAI
 import os
 import logging
 from dotenv import load_dotenv
+from services.line_bot_service import handle_difficulty_selection, send_start_message
 
 # 環境変数の読み込み
 load_dotenv()
@@ -88,7 +89,7 @@ def generate_riddle(difficulty, user_id):
         return "謎の生成に失敗しました。"
 
 # ユーザーの回答を判定する関数
-def check_user_answer(user_id, user_answer):
+def check_user_answer(user_id, user_answer, reply_token, user_message):
     try:
         # ユーザーIDに紐づいた問題と答えを取得
         riddle = riddle_store.get(user_id)
@@ -98,8 +99,10 @@ def check_user_answer(user_id, user_answer):
         # 正解をチェック
         correct_answer = riddle["answer"]
         if user_answer.strip() == correct_answer:
+            send_start_message(user_id)  # 正解時に次のメッセージを送信
             return "おめでとう！正解です！"
         else:
+            handle_difficulty_selection(reply_token, user_message, user_id)
             return "残念！もう一度考えてみてください。"
     except Exception as e:
         logger.error(f"Failed to check answer: {e}")
