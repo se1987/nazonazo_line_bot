@@ -46,13 +46,14 @@ async def webhook(request: Request):
             # ヒントが要求された場合、ヒントを表示
             elif user_message == "ヒント":
                 send_hint(reply_token, user_message)
+                handle_difficulty_selection(reply_token, user_message, user_id)
             else:
                 # 「もう一度」が送信された場合、最初にスタートボタンを表示
                 if user_message == "もう一度":
                     send_difficulty_selection_message(reply_token)
                 else:
                     # 回答メッセージが送信された場合、回答処理を行う
-                    result_message = check_user_answer(user_id, user_message)  # ユーザーIDに基づいて回答を判定
+                    result_message = check_user_answer(user_id, user_message, reply_token, user_message)  # 判定時にreply_tokenとuser_messageを渡す
                     reply_message(reply_token, result_message)  # 判定結果を送信
 
     return {"status": "ok"}
