@@ -126,7 +126,7 @@ def generate_hint(difficulty):
 
 # ユーザーの回答を判定する関数
 def check_user_answer(user_id, user_answer):
-    logger.debug(f"check_user_answer関数が呼び出されました")
+    logger.debug(f"check_user_answer関数が呼び出されました:{user_answer}と回答が送信されました")
     try:
         # ユーザーIDに紐づいた問題と答えを取得
         riddle = riddle_store.get(user_id)
@@ -138,6 +138,7 @@ def check_user_answer(user_id, user_answer):
         correct_answer = riddle["answer"]
         logger.debug(f"correct_answer:{correct_answer}を取得しました")
         if user_answer.strip() == correct_answer:
+            logger.debug(f"correct_answer:{user_answer.strip()}を取得しました")
             return "おめでとう！正解です！"
         else:
             return "残念！もう一度考えてみてください。"
