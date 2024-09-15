@@ -2,8 +2,7 @@ from openai import OpenAI
 import os
 import logging
 from dotenv import load_dotenv
-from services.line_bot_service import send_start_message
-from utils.send_hint import handle_difficulty_selection
+from backend.utils.line_message_api import handle_difficulty_selection_with_hint_button, send_start_message
 
 # 環境変数の読み込み
 load_dotenv()
@@ -103,7 +102,7 @@ def check_user_answer(user_id, user_answer, reply_token, user_message):
             send_start_message(user_id)  # 正解時に次のメッセージを送信
             return "おめでとう！正解です！"
         else:
-            handle_difficulty_selection(reply_token, user_message, user_id)
+            handle_difficulty_selection_with_hint_button(reply_token, user_message, user_id)
             return "残念！もう一度考えてみてください。"
     except Exception as e:
         logger.error(f"Failed to check answer: {e}")
