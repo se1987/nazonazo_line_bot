@@ -1,7 +1,7 @@
 import os
 import logging
 from dotenv import load_dotenv
-from services.open_ai_service import generate_riddle
+from utils.open_ai_api import generate_riddle
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import TemplateSendMessage, ButtonsTemplate, MessageAction,TextSendMessage
