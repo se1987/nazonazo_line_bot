@@ -45,7 +45,7 @@ async def webhook(request: Request):
                 handle_difficulty_selection_with_hint_button(reply_token, user_message, user_id)
             # ヒントが要求された場合、ヒントを表示
             elif user_message == "ヒント":
-                send_hint(reply_token, user_message)
+                send_hint(reply_token, user_message, user_id)
             else:
                 # 「もう一度」が送信された場合、最初にスタートボタンを表示
                 if user_message == "もう一度":

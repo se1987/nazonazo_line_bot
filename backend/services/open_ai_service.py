@@ -122,7 +122,15 @@ def generate_riddle(difficulty, user_id):
         return "謎の生成に失敗しました。"
     
 # OpenAI APIを使ってヒントを生成する関数
-def generate_hint(difficulty, question):
+def generate_hint(difficulty, user_id):
+    logger.debug(f"generate_hint関数が呼び出されました")
+
+    # ユーザーIDに紐づいた問題と答えを取得
+    riddle = riddle_store.get(user_id)
+    logger.debug(f"riddle:{riddle}を取得しました")
+    question = riddle["question"]
+    logger.debug(f"question:{question}を取得しました")
+
     # 難易度に応じたプロンプトを作成
     prompt = f"""
     あなたは、難易度に応じたなぞなぞのヒントを提供するプロフェッショナルです。
@@ -171,7 +179,7 @@ def generate_hint(difficulty, question):
        - 答え: 「はなたれています」
 
     ヒントの出力は以下のフォーマットに従ってください：
-    - ヒント: zzz
+    - ヒント: **zzz**
     """
     
     try:
