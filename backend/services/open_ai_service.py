@@ -123,6 +123,11 @@ def generate_hint(difficulty, user_id):
 
     # ユーザーIDに紐づいた問題と答えを取得
     riddle = riddle_store.get(user_id)
+    # 問題が存在しない場合の処理
+    if not riddle:
+        logger.error(f"ユーザーID: {user_id} に対する問題が見つかりません")
+        return "まだ問題が出題されていません。"
+
     logger.debug(f"riddle:{riddle}を取得しました")
     question = riddle["question"]
     logger.debug(f"question:{question}を取得しました")
@@ -175,7 +180,7 @@ def generate_hint(difficulty, user_id):
        - 答え: 「はなたれています」
 
     ヒントの出力は以下のフォーマットに従ってください：
-    - ヒント: **zzz**
+    - ヒント: zzz
     """
     
     try:
