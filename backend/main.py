@@ -51,7 +51,6 @@ async def webhook(request: Request):
                 if user_message == "降参":
                     result_message = check_user_answer(user_id, user_message)  # 判定時にreply_tokenとuser_messageを渡す
                     reply_message(reply_token, result_message)  # 判定結果を送信
-                    send_start_message(reply_token)
                 else:
                     # 回答メッセージが送信された場合、回答処理を行う
                     result_message = check_user_answer(user_id, user_message)  # 判定時にreply_tokenとuser_messageを渡す

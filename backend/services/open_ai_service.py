@@ -191,7 +191,7 @@ def check_user_answer(user_id, user_answer):
             logger.debug(f"correct_answer:{user_answer.strip()}を取得しました")
             return "おめでとう！正解です！"
         elif user_answer.strip() == "降参":
-            return f"正解は『{correct_answer}』でした！"
+            return f"正解は『{clean_correct_answer}』でした！"
         else:
             return "残念！もう一度考えてみてください。"
     except Exception as e:
