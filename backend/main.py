@@ -47,8 +47,8 @@ async def webhook(request: Request):
             elif user_message == "ヒント":
                 send_hint(reply_token, user_message, user_id)
             else:
-                # 「もう一度」が送信された場合、最初にスタートボタンを表示
-                if user_message == "もう一度":
+                # 「降参」が送信された場合、答えとスタートボタンを表示
+                if user_message == "降参":
                     send_difficulty_selection_message(reply_token)
                 else:
                     # 回答メッセージが送信された場合、回答処理を行う

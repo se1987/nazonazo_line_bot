@@ -145,7 +145,7 @@ def generate_hint(difficulty, user_id):
     ユーザーが「ヒント」を要求したので、次のフローに従いヒントを提供してください。
 
     - 問題「{question}」に応じたヒントを1つ提供してください。
-    - ヒントは、あまり答え{answer}に近づきすぎないが、解答の手がかりになるヒントを1つ生成してください。
+    - ヒントは、{answer}を使わずに、解答の手がかりになるヒントを1つ生成してください。
 
     ヒントの出力は以下のフォーマットに従ってください：
     - 50文字以内の簡潔な文章で出力してください。
@@ -190,6 +190,8 @@ def check_user_answer(user_id, user_answer):
         if user_answer.strip() == clean_correct_answer:
             logger.debug(f"correct_answer:{user_answer.strip()}を取得しました")
             return "おめでとう！正解です！"
+        elif user_answer.strip() == "降参":
+            return f"正解は『{correct_answer}』でした！"
         else:
             return "残念！もう一度考えてみてください。"
     except Exception as e:
