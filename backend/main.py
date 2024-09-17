@@ -49,7 +49,8 @@ async def webhook(request: Request):
             else:
                 # 「降参」が送信された場合、答えとスタートボタンを表示
                 if user_message == "降参":
-                    send_difficulty_selection_message(reply_token)
+                    result_message = check_user_answer(user_id, user_message)  # 判定時にreply_tokenとuser_messageを渡す
+                    reply_message(reply_token, result_message)  # 判定結果を送信
                 else:
                     # 回答メッセージが送信された場合、回答処理を行う
                     result_message = check_user_answer(user_id, user_message)  # 判定時にreply_tokenとuser_messageを渡す
