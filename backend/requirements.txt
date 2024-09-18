@@ -6,3 +6,4 @@ python-dotenv
 psycopg2-binary
 line-bot-sdk
 mecab-python3
+mecab-ipadic
