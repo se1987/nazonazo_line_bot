@@ -1,6 +1,13 @@
 # Pythonのベースイメージを指定
 FROM python:3.10
 
+# 必要なパッケージのインストール（mecabとmecab-ipadicの依存関係を追加）
+RUN apt-get update && apt-get install -y \
+    mecab \
+    libmecab-dev \
+    mecab-ipadic-utf8 \
+    && apt-get clean
+
 # 作業ディレクトリを設定
 WORKDIR /app
 
