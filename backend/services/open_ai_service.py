@@ -2,6 +2,8 @@ from openai import OpenAI
 import os
 import logging
 from dotenv import load_dotenv
+import MeCab
+import re
 
 # 環境変数の読み込み
 load_dotenv()
@@ -10,6 +12,9 @@ load_dotenv()
 log_level = os.getenv("LOG_LEVEL", "INFO").upper()
 logging.basicConfig(level=log_level, format='♦️♦️ %(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
+
+# MeCabのインスタンス作成（辞書を指定）
+mecab = MeCab.Tagger("-Ochasen")
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
@@ -169,6 +174,18 @@ def generate_hint(difficulty, user_id):
         logger.error(f"ヒントの生成に失敗しました: {e}")
         return "ヒントの生成に失敗しました。"
 
+# ユーザーの回答を形態素解析して正規化する関数
+def normalize_answer_mecab(answer):
+    # 形態素解析して単語ごとに分解
+    node = mecab.parseToNode(answer)
+    words = []
+    while node:
+        word = node.surface  # 分解された単語を取得
+        words.append(word)
+        node = node.next
+    # 単語を繋げて一つの正規化された文字列を返す
+    return ''.join(words).lower()
+
 # ユーザーの回答を判定する関数
 def check_user_answer(user_id, user_answer):
     logger.debug(f"check_user_answer関数が呼び出されました:{user_answer}と回答が送信されました")
@@ -183,15 +200,24 @@ def check_user_answer(user_id, user_answer):
         correct_answer = riddle["answer"]
         logger.debug(f"correct_answer:{correct_answer}を取得しました")
 
-        # カギカッコを削除して比較 (大文字・小文字も無視)
-        clean_correct_answer = correct_answer.strip().replace("「", "").replace("」", "").lower()
-        logger.debug(f"clean_correct_answer:{clean_correct_answer}を取得しました")
 
-        if user_answer.strip() == clean_correct_answer:
+        # ユーザーの回答を形態素解析で正規化
+        user_answer_normalized = normalize_answer_mecab(user_answer)
+        logger.debug(f"clean_correct_answer:{user_answer_normalized}を取得しました")
+
+        # 正解の答えも形態素解析で正規化
+        correct_answer_normalized = normalize_answer_mecab(correct_answer)
+        logger.debug(f"clean_correct_answer:{correct_answer_normalized}を取得しました")
+
+        # # カギカッコを削除して比較 (大文字・小文字も無視)
+        # clean_correct_answer = correct_answer.strip().replace("「", "").replace("」", "").lower()
+        # logger.debug(f"clean_correct_answer:{clean_correct_answer}を取得しました")
+
+        if user_answer_normalized.strip() == correct_answer_normalized:
             logger.debug(f"correct_answer:{user_answer.strip()}を取得しました")
             return "おめでとう！正解です！"
         elif user_answer.strip() == "降参":
-            return f"正解は『{clean_correct_answer}』でした！"
+            return f"正解は『{correct_answer_normalized}』でした！"
         else:
             return "残念！もう一度考えてみてください。"
     except Exception as e:
