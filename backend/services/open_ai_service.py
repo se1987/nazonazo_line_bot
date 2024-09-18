@@ -11,9 +11,6 @@ log_level = os.getenv("LOG_LEVEL", "INFO").upper()
 logging.basicConfig(level=log_level, format='♦️♦️ %(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# MeCabのインスタンス作成（辞書を指定）
-mecab = MeCab.Tagger("-Ochasen")
-
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # 問題とその正解を保存する辞書
