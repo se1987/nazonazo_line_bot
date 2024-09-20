@@ -57,7 +57,7 @@ def send_start_message(reply_token):
 def handle_difficulty_selection_with_hint_button(reply_token, difficulty, user_id):
     riddle = generate_riddle(difficulty, user_id)  # 難易度に基づいた謎を生成
     # 謎をユーザーに送信
-    line_bot_api.reply_message(reply_token, TextSendMessage(text=f"{difficulty}の謎: {riddle}"))
+    line_bot_api.reply_message(reply_token, TextSendMessage(text=f"{difficulty}の謎: {riddle}(ひらがなで答えてください)"))
 
     # ヒントボタンをユーザーに表示
     hint_button = TemplateSendMessage(
