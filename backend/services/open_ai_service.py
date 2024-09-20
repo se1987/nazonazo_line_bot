@@ -83,7 +83,7 @@ def generate_riddle(difficulty, user_id):
                 {"role": "user","content": prompt,}
             ],
             model="gpt-4o-mini",  # GPT-4のモデルを指定
-            temperature=0.7,  # 調整必要
+            temperature=0.65,  # 調整必要
             max_tokens=150  # 生成されるテキストの最大トークン数
         )
         # レスポンスを処理
@@ -159,7 +159,7 @@ def generate_hint(difficulty, user_id):
                 {"role": "user","content": prompt,}
             ],
             model="gpt-4o-mini",  # GPT-4のモデルを指定
-            temperature=0.7, #調整必要
+            temperature=0.65, #調整必要
             max_tokens=50  # 生成されるテキストの最大トークン数
         )
         # 生成されたテキスト（ヒント）を返す
