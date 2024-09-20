@@ -63,7 +63,9 @@ def generate_riddle(difficulty, user_id):
 
     # ルール:
     - 問題は150文字以内で簡単な文章にしてください。
-    - ヒントは生成せずに、問題と回答だけを出力してください。
+    - ヒントは生成せずに、問題と答えだけを出力してください。
+    - 答えは1単語のみ出力してください。
+    - 答えは全てひらがなに変換してください。
 
     # 出力
     出題は以下のフォーマットに従ってください：
@@ -159,7 +161,7 @@ def generate_hint(difficulty, user_id):
                 {"role": "user","content": prompt,}
             ],
             model="gpt-4o-mini",  # GPT-4のモデルを指定
-            temperature=0.65, #調整必要
+            temperature=0.75, #調整必要
             max_tokens=50  # 生成されるテキストの最大トークン数
         )
         # 生成されたテキスト（ヒント）を返す
