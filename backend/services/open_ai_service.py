@@ -64,7 +64,6 @@ def generate_riddle(difficulty, user_id):
             max_tokens=200,  # 生成されるテキストの最大トークン数
             temperature=0.7,  # 調整必要
             top_p=0.9,
-            presence_penalty=0.2,
             n=1
         )
         # レスポンスを処理
@@ -116,18 +115,19 @@ def generate_hint(difficulty, user_id):
 
     # 難易度に応じたプロンプトを作成
     prompt = f"""
-    あなたは優れた創造力と論理的思考力を持ち、ユーモア溢れるなぞなぞクリエイターです。
-    今、ユーザーが選んだ難易度は「{difficulty}」です。
     以下の問題に対して、ヒントを生成してください。
     
     - 問題: {question}
     - 解答: {answer}
 
+    # お願い
     ユーザーが「ヒント」を要求したので、次のフローに従いヒントを提供してください。
 
+    # ルール
     - 問題「{question}」に応じたヒントを1つ提供してください。
-    - ヒントは、{answer}を使わずに、解答の手がかりになるヒントを1つ生成してください。
+    - ヒントは、{answer}という言葉は使わずに、{answer}の手がかりになるヒントを1つ生成してください。
 
+    # 出力
     ヒントの出力は以下のフォーマットに従ってください：
     - 50文字以内の簡潔な文章で出力してください。
     """
@@ -141,7 +141,7 @@ def generate_hint(difficulty, user_id):
             ],
             model="gpt-4o-mini",  # GPT-4のモデルを指定
             max_tokens=50,  # 生成されるテキストの最大トークン数
-            temperature=0.6, #調整必要
+            temperature=0.65, #調整必要
             top_p=0.9,
         )
         # 生成されたテキスト（ヒント）を返す
