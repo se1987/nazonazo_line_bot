@@ -60,10 +60,10 @@ def generate_riddle(difficulty, user_id):
     - 答え: 「1」
 
     # ルール:
-    - 問題は150文字以内で簡単な文章にしてください。
+    - 問題は200文字以内で簡単な文章にしてください。
     - 答えが明確になるように、問題と答えの関連性をしっかりと持たせてください。
     - ヒントは生成せずに、問題と答えを出力してください。
-    - 答えは1単語のみ出力し、ひらがなで書いてください。
+    - 答えは1単語のみ出力し、ひらがなに変換してください。
 
     # 出力
     出題は以下のフォーマットに従ってください：
@@ -82,9 +82,10 @@ def generate_riddle(difficulty, user_id):
                 {"role": "user","content": prompt,}
             ],
             model="gpt-4o-mini",  # GPT-4のモデルを指定
-            max_tokens=150,  # 生成されるテキストの最大トークン数
-            temperature=0.6,  # 調整必要
-            top_p=0.8,
+            max_tokens=200,  # 生成されるテキストの最大トークン数
+            temperature=0.65,  # 調整必要
+            top_p=0.9,
+            presence_penalty=0.2,
             n=1
         )
         # レスポンスを処理
@@ -162,6 +163,8 @@ def generate_hint(difficulty, user_id):
             model="gpt-4o-mini",  # GPT-4のモデルを指定
             max_tokens=50,  # 生成されるテキストの最大トークン数
             temperature=0.6, #調整必要
+            top_p=0.9,
+            top_k=10
         )
         # 生成されたテキスト（ヒント）を返す
         return response.choices[0].message.content.strip()
