@@ -164,7 +164,6 @@ def generate_hint(difficulty, user_id):
             max_tokens=50,  # 生成されるテキストの最大トークン数
             temperature=0.6, #調整必要
             top_p=0.9,
-            top_k=10
         )
         # 生成されたテキスト（ヒント）を返す
         return response.choices[0].message.content.strip()
