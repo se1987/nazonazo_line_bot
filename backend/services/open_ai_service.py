@@ -275,7 +275,7 @@ def generate_hint(difficulty, user_id):
             ],
             model="gpt-4o-mini",  # GPT-4のモデルを指定
             max_tokens=100,  # 生成されるテキストの最大トークン数
-            temperature=0.7, #調整必要
+            temperature=0.65, #調整必要
             top_p=0.9,
         )
         # 生成されたテキスト（ヒント）を返す
