@@ -2,7 +2,7 @@
 ![logo](https://github.com/user-attachments/assets/83bb9165-d0f6-40a5-8746-aa48c45b6876)
 
 ## 概要
-なぞなぞを出してくれるLINE botです。
+なぞなぞ（論理パズル）を出してくれるLINE botです。
 子どもたちが、遠出をするときの車中で手軽に遊べるように、作成しました。
 
 ## 機能
