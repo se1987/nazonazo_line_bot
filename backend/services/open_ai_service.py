@@ -132,6 +132,7 @@ def generate_hint(difficulty, user_id):
     logger.debug(f"riddle:{riddle}を取得しました")
     question = riddle["question"]
     answer = riddle["answer"]
+    explanation = riddle["explanation"]
     logger.debug(f"question:{question},answer:{answer}を取得しました")
 
     # 難易度に応じたプロンプトを作成
@@ -147,11 +148,11 @@ def generate_hint(difficulty, user_id):
 
     # ルール
     - 問題「{question}」に応じたヒントを1つ提供してください。
-    - ヒントは、{answer}という言葉は使わずに、{answer}の手がかりになるヒントを1つ生成してください。
+    - ヒントは、{answer}という言葉は使わず、{explanation}に沿った取っ掛かりを示すように生成してください。
 
     # 出力
     ヒントの出力は以下のフォーマットに従ってください：
-    - 50文字以内の簡潔な文章で出力してください。
+    - 100文字以内の簡潔な文章で出力してください。
     """
     
     try:
@@ -162,7 +163,7 @@ def generate_hint(difficulty, user_id):
                 {"role": "user","content": prompt,}
             ],
             model="gpt-4o-mini",  # GPT-4のモデルを指定
-            max_tokens=50,  # 生成されるテキストの最大トークン数
+            max_tokens=100,  # 生成されるテキストの最大トークン数
             temperature=0.65, #調整必要
             top_p=0.9,
         )
