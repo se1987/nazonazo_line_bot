@@ -60,6 +60,7 @@ def generate_riddle(difficulty, user_id):
     - 問題は論理的なステップを必要とし、答えは必ず1つの単語もしくは数字で表現できるようにしてください。
     - 計算問題を出題することは控え、論理的思考力が必要な問題を生成してください。
     - 問題は500文字以内で簡潔に表現してください。
+    - 答えが漢字の場合は、ひらがなに変換してください。
 
     # 出力
     出題は以下のフォーマットに従ってください：
@@ -192,8 +193,16 @@ def check_user_answer(user_id, user_answer):
         correct_explanation = riddle["explanation"]
         logger.debug(f"correct_answer:{correct_explanation}を取得しました")
 
-        # カギカッコを削除して比較 (大文字・小文字も無視)
-        clean_correct_answer = correct_answer.strip().replace("「", "").replace("」", "").replace("-","").lower()
+        # カギカッコ、ハイフン、改行を削除し、大文字小文字を無視
+        clean_correct_answer = (
+            correct_answer.strip()
+            .replace("「", "")
+            .replace("」", "")
+            .replace("-", "")
+            .replace("\n", "")
+            .replace("\r", "")
+            .lower()
+        )
         logger.debug(f"clean_correct_answer:{clean_correct_answer}を取得しました")
 
         if user_answer.strip() == clean_correct_answer:
