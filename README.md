@@ -1,6 +1,8 @@
 # nazonazo_line_bot
 ![logo](https://github.com/user-attachments/assets/83bb9165-d0f6-40a5-8746-aa48c45b6876)
 
+![image](https://img.shields.io/badge/Python%20js-000000?style=for-the-badge&logo=express&logoColor=white)
+
 ## 概要
 なぞなぞ（論理パズル）を出してくれるLINE botです。
 子どもたちが、遠出をするときの車中で手軽に遊べるように、作成しました。
