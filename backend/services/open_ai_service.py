@@ -193,7 +193,7 @@ def generate_riddle(difficulty, user_id):
             model="gpt-4o-mini",  # GPT-4のモデルを指定
             max_tokens=500,  # 生成されるテキストの最大トークン数
             temperature=0.65,  # 調整必要
-            top_p=0.85,
+            top_p=0.9,
             n=1
         )
         # レスポンスを処理
