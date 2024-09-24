@@ -1,6 +1,8 @@
 # nazonazo_line_bot
 ![logo](https://github.com/user-attachments/assets/83bb9165-d0f6-40a5-8746-aa48c45b6876)
 
+![image](https://img.shields.io/badge/Line-00C300?style=for-the-badge&logo=line&logoColor=white)
+![image](https://img.shields.io/badge/fastapi-109989?style=for-the-badge&logo=FASTAPI&logoColor=white)
 ![image](https://img.shields.io/badge/ChatGPT-74aa9c?style=for-the-badge&logo=openai&logoColor=white)
 ![image](https://img.shields.io/badge/Google_Cloud-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white)
 ![image](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)
