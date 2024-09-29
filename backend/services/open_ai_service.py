@@ -232,7 +232,7 @@ def generate_riddle(difficulty, user_id):
         return "謎の生成に失敗しました。"
 
 # OpenAI APIを使ってヒントを生成する関数
-def generate_hint(user_id):
+def generate_hint(difficulty, user_id):
     logger.debug(f"generate_hint関数が呼び出されました")
 
     # ユーザーIDに紐づいた問題と答えを取得
@@ -252,6 +252,7 @@ def generate_hint(user_id):
     prompt = f"""
     以下の問題に対して、ヒントを生成してください。
     
+    - 難易度: {difficulty}
     - 問題: {question}
     - 解答: {answer}
     - 解説: {explanation}
