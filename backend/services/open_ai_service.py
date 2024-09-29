@@ -3,6 +3,7 @@ import os
 import logging
 from dotenv import load_dotenv
 import random
+import asyncio
 
 # 環境変数の読み込み
 load_dotenv()
@@ -17,8 +18,8 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 # 問題とその正解を保存する辞書
 riddle_store = {}
 
-# OpenAI APIを使って謎を生成する関数
-def generate_riddle(difficulty, user_id):
+# OpenAI APIを使って謎を生成する非同期関数
+async def generate_riddle(difficulty, user_id):
     logger.debug(f"generate_riddle関数が呼び出されました")
 
     # 難易度に応じたプロンプトを作成
@@ -184,8 +185,8 @@ def generate_riddle(difficulty, user_id):
 
     try:
         logger.debug(f"generate_riddle関数が{difficulty}の謎の生成を開始しました")
-        # GPT-4にリクエストを送信
-        response = client.chat.completions.create(
+        # GPT-4にリクエストを送信（非同期処理）
+        response = await client.chat.completions.create(
             messages=[
                 {"role": "system", "content": "あなたは優れた論理的思考力を持つパズルクリエイターです。"},
                 {"role": "user","content": prompt,}
@@ -230,8 +231,8 @@ def generate_riddle(difficulty, user_id):
         logger.error(f"謎の生成に失敗しました: {e}")
         return "謎の生成に失敗しました。"
     
-# OpenAI APIを使ってヒントを生成する関数
-def generate_hint(difficulty, user_id):
+# OpenAI APIを使ってヒントを生成する非同期関数
+async def generate_hint(user_id):
     logger.debug(f"generate_hint関数が呼び出されました")
 
     # ユーザーIDに紐づいた問題と答えを取得
@@ -247,7 +248,7 @@ def generate_hint(difficulty, user_id):
     explanation = riddle["explanation"]
     logger.debug(f"question:{question},answer:{answer}を取得しました")
 
-    # 難易度に応じたプロンプトを作成
+    # 問題と解答、解説に応じたプロンプトを作成
     prompt = f"""
     以下の問題に対して、ヒントを生成してください。
     
@@ -268,8 +269,8 @@ def generate_hint(difficulty, user_id):
     """
     
     try:
-        # GPT-4にリクエストを送信
-        response = client.chat.completions.create(
+        # GPT-4にリクエストを送信（非同期処理）
+        response = await client.chat.completions.create(
             messages=[
                 {"role": "system", "content": "あなたは優れた創造力と論理的思考力を持ち、ユーモア溢れるなぞなぞクリエイターです。"},
                 {"role": "user","content": prompt,}
